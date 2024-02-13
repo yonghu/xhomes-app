@@ -3,9 +3,11 @@
     "name": "xhomes",
     "slug": "xhomes",
     "version": "1.0.0",
+    "privacy": "unlisted",
+    "platforms": ["ios","android","web"],
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
+    "scheme": "xhomes",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",

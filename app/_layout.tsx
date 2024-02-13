@@ -1,11 +1,21 @@
+import * as Localization from 'expo-localization'
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
-
+import { useEffect, useState } from 'react';
 import { useColorScheme } from '@/components/useColorScheme';
+
+import TypesafeI18n from '../services/i18n/i18n-react'
+import { Locales } from '../services//i18n/i18n-types'
+import { isLocale } from '../services//i18n/i18n-util'
+import { loadLocaleAsync } from '../services/i18n/i18n-util.async'
+import { getUserLocale } from '../services/locale-storage'
+import '../services/polyfill/Intl'
+
+// Get default locale from device settings.
+const DEFAULT_LOCALE = Localization.getLocales().map(it => it.languageTag).find(isLocale) ?? 'en';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -37,22 +47,37 @@ export default function RootLayout() {
     }
   }, [loaded]);
 
-  if (!loaded) {
-    return null;
+  const [localeLoaded, setLocaleLoaded] = useState<Locales | null>(null)
+
+  useEffect(() => {
+    getUserLocale(DEFAULT_LOCALE)
+      .then(async locale => { await loadLocaleAsync(locale); return locale })
+      .then(setLocaleLoaded)
+  }, [])
+
+  // Note: All hooks are called regardless of conditions now.
+  if (!loaded || localeLoaded === null) {
+    return null; // You might want to render a loading indicator instead of null.
   }
 
-  return <RootLayoutNav />;
+  return <RootLayoutNav localeLoaded={localeLoaded} />;
 }
 
-function RootLayoutNav() {
+interface RootLayoutNavProps {
+  localeLoaded: Locales;
+}
+
+function RootLayoutNav({ localeLoaded }: RootLayoutNavProps) {
   const colorScheme = useColorScheme();
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-      </Stack>
+      <TypesafeI18n locale={localeLoaded}>
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+        </Stack>
+      </TypesafeI18n>
     </ThemeProvider>
   );
 }

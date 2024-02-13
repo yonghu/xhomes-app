@@ -1,22 +1,30 @@
 import React from 'react';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
+
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Link, Tabs } from 'expo-router';
 import { Pressable } from 'react-native';
-
 import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
 import { useClientOnlyValue } from '@/components/useClientOnlyValue';
 
+import { useI18nContext } from '../../services/i18n/i18n-react'
+import type { Locales } from '../../services/i18n/i18n-types'
+import { locales } from '../../services/i18n/i18n-util'
+import { loadLocaleAsync } from '../../services/i18n/i18n-util.async'
+import { setUserLocale } from '../../services/locale-storage'
+
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
+function TabBarIconMaterialIcons(props: {
+  name: React.ComponentProps<typeof MaterialIcons>['name'];
   color: string;
 }) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
+  return <MaterialIcons size={28} style={{ marginBottom: -3 }} {...props} />;
 }
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const { locale, LL, setLocale } = useI18nContext()
 
   return (
     <Tabs
@@ -27,16 +35,16 @@ export default function TabLayout() {
         headerShown: useClientOnlyValue(false, true),
       }}>
       <Tabs.Screen
-        name="index"
+        name='index'
         options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: `${LL.SEARCH()}`,
+          tabBarIcon: ({ color }) => <TabBarIconMaterialIcons name='search' color={color} />,
           headerRight: () => (
-            <Link href="/modal" asChild>
+            <Link href='/modal' asChild>
               <Pressable>
                 {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
+                  <MaterialCommunityIcons
+                    name='face-agent'
                     size={25}
                     color={Colors[colorScheme ?? 'light'].text}
                     style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
@@ -48,10 +56,17 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="two"
+        name='dashboard'
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: `${LL.DASHBOARD()}`,
+          tabBarIcon: ({ color }) => <TabBarIconMaterialIcons name='dashboard' color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name='menu'
+        options={{
+          title: `${LL.MENU()}`,
+          tabBarIcon: ({ color }) => <TabBarIconMaterialIcons name='menu' color={color} />,
         }}
       />
     </Tabs>
