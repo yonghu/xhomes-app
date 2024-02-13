@@ -13,7 +13,9 @@ const en: BaseTranslation = {
   MENU: 'Menu',
   SETTING: 'Setting',
   LANAGUAGE: 'Language',
-  CURRENCY: 'Currency'
+	CURRENCY: 'Currency',
+	SIGNIN: 'Sign In',
+	SIGNOUT: 'Sign Out',
 }
 
 export default en

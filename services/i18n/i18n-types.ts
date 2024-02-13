@@ -58,6 +58,14 @@ type RootTranslation = {
 	 */
   MENU: string,
 	/**
+	 * Button: Sign In
+	 */
+  SIGNIN: string,
+	/**
+	 * Button: Sign Out
+	 */
+  SIGNOUT: string,
+	/**
 	 * Menu: Setting
 	 */
   SETTING: string,
@@ -112,6 +120,14 @@ export type TranslationFunctions = {
 	 * Tab: Menu
 	 */
   MENU: () => LocalizedString,
+	/**
+	 * Button: Sign In
+	 */
+  SIGNIN: () => LocalizedString,
+	/**
+	 * Button: Sign Out
+	 */
+  SIGNOUT: () => LocalizedString,
 	/**
 	 * Menu: Setting
 	 */

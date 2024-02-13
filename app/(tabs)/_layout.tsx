@@ -1,18 +1,16 @@
 import React from 'react';
+import { StyleSheet } from 'react-native';
 
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Link, Tabs } from 'expo-router';
-import { Pressable } from 'react-native';
+import { Pressable, Text } from 'react-native';
 import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
 import { useClientOnlyValue } from '@/components/useClientOnlyValue';
 
 import { useI18nContext } from '../../services/i18n/i18n-react'
-import type { Locales } from '../../services/i18n/i18n-types'
-import { locales } from '../../services/i18n/i18n-util'
-import { loadLocaleAsync } from '../../services/i18n/i18n-util.async'
-import { setUserLocale } from '../../services/locale-storage'
+import { Feather } from '@expo/vector-icons';
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 function TabBarIconMaterialIcons(props: {
@@ -24,7 +22,7 @@ function TabBarIconMaterialIcons(props: {
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
-  const { locale, LL, setLocale } = useI18nContext()
+  const { LL } = useI18nContext()
 
   return (
     <Tabs
@@ -67,8 +65,30 @@ export default function TabLayout() {
         options={{
           title: `${LL.MENU()}`,
           tabBarIcon: ({ color }) => <TabBarIconMaterialIcons name='menu' color={color} />,
+          headerRight: () => (
+            <Link href='/settings' asChild>
+              <Pressable>
+                {({ pressed }) => (
+                  <Feather
+                    name='settings'
+                    size={25}
+                    color={Colors[colorScheme ?? 'light'].text}
+                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                  />
+                )}
+              </Pressable>
+            </Link>
+          ),
         }}
       />
     </Tabs>
   );
 }
+
+const styles = StyleSheet.create({
+  title: {
+    marginRight: 15,
+    fontSize: 15,
+    fontWeight: 'bold',
+  }
+});
