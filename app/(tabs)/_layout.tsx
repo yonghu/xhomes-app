@@ -1,16 +1,14 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Link, Tabs } from 'expo-router';
 import { Pressable, Text } from 'react-native';
 import Colors from '@/constants/Colors';
-import { useColorScheme } from '@/components/useColorScheme';
-import { useClientOnlyValue } from '@/components/useClientOnlyValue';
+import { useColorScheme } from '@/components/use-color-scheme';
+import { useClientOnlyValue } from '@/components/use-client-only-value';
 
-import { useI18nContext } from '@/services/i18n/i18n-react'
-import { Feather } from '@expo/vector-icons';
+import { useI18nContext } from '@/components/i18n/i18n-react'
+import { MaterialCommunityIcons, MaterialIcons, Feather } from '@expo/vector-icons';
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 function TabBarIconMaterialIcons(props: {

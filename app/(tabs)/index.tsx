@@ -1,11 +1,11 @@
 import { Picker } from '@react-native-picker/picker'
 import React, { ChangeEventHandler, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Animated, Dimensions, Easing, Linking, NativeSyntheticEvent, StyleSheet, Text, TextInput, TextInputChangeEventData, useWindowDimensions, View } from 'react-native'
-import { useI18nContext } from '@/services/i18n/i18n-react'
-import type { Locales } from '@/services/i18n/i18n-types'
-import { locales } from '@/services/i18n/i18n-util'
-import { loadLocaleAsync } from '@/services/i18n/i18n-util.async'
-import { setUserLocale } from '@/services/locale-storage'
+import { useI18nContext } from '@/components/i18n/i18n-react'
+import type { Locales } from '@/components/i18n/i18n-types'
+import { locales } from '@/components/i18n/i18n-util'
+import { loadLocaleAsync } from '@/components/i18n/i18n-util.async'
+import { setUserLocale } from '@/components/locale-storage'
 
 export default function Child() {
   const styles = useStyles();

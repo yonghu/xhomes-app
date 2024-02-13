@@ -14,7 +14,7 @@ const zh: Translation = {
   MENU: '菜单',
 	BACK: '返回',
   SETTINGS: '设置',
-  LANAGUAGES: '语言',
+  LANAGUAGES: '国家和语言',
   CURRENCIES: '货币',
 	SIGNIN: '登录',
 	SIGNOUT: '登出',

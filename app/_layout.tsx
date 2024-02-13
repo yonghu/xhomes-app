@@ -5,17 +5,21 @@ import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
-import { useColorScheme } from '@/components/useColorScheme';
+import { useColorScheme } from '@/components/use-color-scheme';
 
-import TypesafeI18n from '@/services/i18n/i18n-react'
-import { Locales } from '@/services/i18n/i18n-types'
-import { isLocale } from '@/services/i18n/i18n-util'
-import { loadLocaleAsync } from '@/services/i18n/i18n-util.async'
-import { getUserLocale } from '@/services/locale-storage'
-import '@/services/polyfill/Intl'
+import TypesafeI18n from '@/components/i18n/i18n-react'
+import { Locales } from '@/components/i18n/i18n-types'
+import { isLocale } from '@/components/i18n/i18n-util'
+import { loadLocaleAsync } from '@/components/i18n/i18n-util.async'
+import { getUserLocale } from '@/components/locale-storage'
+import { Config } from '@/configs/configs'
+import Countries from '@/constants/Countries'
+import '@/components/polyfill/Intl'
 
 // Get default locale from device settings.
-const DEFAULT_LOCALE = Localization.getLocales().map(it => it.languageTag).find(isLocale) ?? 'en';
+const DEFAULT_LOCALE = Localization.getLocales().map(it => it.languageTag).find(isLocale) ?? Countries.US.languages[0].language_code as Locales;
+Config.languageCode = Localization.locale.split('-')[0] ?? Countries.US.languages[0].language_code;
+Config.countryCode = Localization.locale.split('-')[1] ?? 'US';
 
 export {
   // Catch any errors thrown by the Layout component.

@@ -14,7 +14,7 @@ const es: Translation = {
   MENU: 'Menú',
   SETTINGS: 'Configuracións',
 	BACK: 'Atrás',
-  LANAGUAGES: 'Idiomas',
+  LANAGUAGES: 'País y idioma',
 	CURRENCIES: 'Monedas',
 	SIGNIN: 'Iniciar sesión',
 	SIGNOUT: 'Cerrar sesión',
