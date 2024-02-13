@@ -50,13 +50,21 @@ type RootTranslation = {
 	 */
   SEARCH: string,
 	/**
-	 * Tab: Dashboard
+	 * Tab: Dashboard (Deprecated)
 	 */
   DASHBOARD: string,
+	/**
+	 * Tab: Home
+	 */
+  HOME: string,
 	/**
 	 * Tab: Menu
 	 */
   MENU: string,
+	/**
+	 * Navigation Bar: Back button
+	 */
+  BACK: string,
 	/**
 	 * Button: Sign In
 	 */
@@ -68,7 +76,7 @@ type RootTranslation = {
 	/**
 	 * Menu: Setting
 	 */
-  SETTING: string,
+  SETTINGS: string,
 	/**
 	 * Menu: Setting - Languages
 	 */
@@ -113,13 +121,21 @@ export type TranslationFunctions = {
 	 */
   SEARCH: () => LocalizedString,
 	/**
-	 * Tab: Dashboard
+	 * Tab: Dashboard (Deprecated)
 	 */
   DASHBOARD: () => LocalizedString,
+	/**
+	 * Tab: Dashboard
+	 */
+  HOME: () => LocalizedString,
 	/**
 	 * Tab: Menu
 	 */
   MENU: () => LocalizedString,
+	/**
+	 * Navigation Bar: Back button
+	 */
+  BACK: () => LocalizedString,
 	/**
 	 * Button: Sign In
 	 */
@@ -131,7 +147,7 @@ export type TranslationFunctions = {
 	/**
 	 * Menu: Setting
 	 */
-  SETTING: () => LocalizedString,
+  SETTINGS: () => LocalizedString,
 	/**
 	 * Menu: Setting - Languages
 	 */

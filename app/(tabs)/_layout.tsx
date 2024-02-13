@@ -9,7 +9,7 @@ import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
 import { useClientOnlyValue } from '@/components/useClientOnlyValue';
 
-import { useI18nContext } from '../../services/i18n/i18n-react'
+import { useI18nContext } from '@/services/i18n/i18n-react'
 import { Feather } from '@expo/vector-icons';
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
@@ -33,7 +33,7 @@ export default function TabLayout() {
         headerShown: useClientOnlyValue(false, true),
       }}>
       <Tabs.Screen
-        name='index'
+        name='search'
         options={{
           title: `${LL.SEARCH()}`,
           tabBarIcon: ({ color }) => <TabBarIconMaterialIcons name='search' color={color} />,
@@ -54,10 +54,10 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name='dashboard'
+        name='index'
         options={{
-          title: `${LL.DASHBOARD()}`,
-          tabBarIcon: ({ color }) => <TabBarIconMaterialIcons name='dashboard' color={color} />,
+          title: `${LL.HOME()}`,
+          tabBarIcon: ({ color }) => <TabBarIconMaterialIcons name='home' color={color} />,
         }}
       />
       <Tabs.Screen
@@ -88,7 +88,7 @@ export default function TabLayout() {
 const styles = StyleSheet.create({
   title: {
     marginRight: 15,
-    fontSize: 15,
+    fontSize: 20,
     fontWeight: 'bold',
   }
 });

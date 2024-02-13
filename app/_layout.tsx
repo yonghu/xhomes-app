@@ -7,12 +7,12 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
 import { useColorScheme } from '@/components/useColorScheme';
 
-import TypesafeI18n from '../services/i18n/i18n-react'
-import { Locales } from '../services//i18n/i18n-types'
-import { isLocale } from '../services//i18n/i18n-util'
-import { loadLocaleAsync } from '../services/i18n/i18n-util.async'
-import { getUserLocale } from '../services/locale-storage'
-import '../services/polyfill/Intl'
+import TypesafeI18n from '@/services/i18n/i18n-react'
+import { Locales } from '@/services/i18n/i18n-types'
+import { isLocale } from '@/services/i18n/i18n-util'
+import { loadLocaleAsync } from '@/services/i18n/i18n-util.async'
+import { getUserLocale } from '@/services/locale-storage'
+import '@/services/polyfill/Intl'
 
 // Get default locale from device settings.
 const DEFAULT_LOCALE = Localization.getLocales().map(it => it.languageTag).find(isLocale) ?? 'en';
@@ -32,7 +32,7 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    SpaceMono: require('@/assets/fonts/SpaceMono-Regular.ttf'),
     ...FontAwesome.font,
   });
 
@@ -74,7 +74,8 @@ function RootLayoutNav({ localeLoaded }: RootLayoutNavProps) {
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <TypesafeI18n locale={localeLoaded}>
         <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="(settings)/settings" options={{ title: 'Settings', headerBackTitle: 'Back' }} />
+          <Stack.Screen name="(tabs)" options={{ headerShown: false, title: 'Tabs' }} />
           <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
         </Stack>
       </TypesafeI18n>
