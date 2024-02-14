@@ -30,7 +30,7 @@ export default function CountryLanguages() {
   const { locale, LL, setLocale } = useI18nContext()
   const cc = 'ca';
 
-  const handleDataOperation = async (countryCode: string, languageCode: Locales) => {
+  const setCountryAndLanguage = async (countryCode: string, languageCode: Locales) => {
     setUserLocale(languageCode as Locales)
       .then(async languageCode => { await loadLocaleAsync(languageCode); return languageCode })
       .then(setLocale)
@@ -92,7 +92,7 @@ export default function CountryLanguages() {
 
           return (
             <View key={`country-language-${countryIndex}-${languageIndex}`} style={[styles.container,]}>
-              <Pressable onPress={() => handleDataOperation(countryCode, countries[countryCode].languages[languageIndex].language_code as Locales)}>
+              <Pressable onPress={() => setCountryAndLanguage(countryCode, countries[countryCode].languages[languageIndex].language_code as Locales)}>
                 {({ pressed }) => (
                   <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Image
@@ -113,75 +113,6 @@ export default function CountryLanguages() {
       })}
     </ScrollView>
   );
-
-
-  /**
-    return (
-      <View style={styles.container}>
-        {supportedCountryCodes.map((countryCode, countryIndex) => {
-          return countries[countryCode].languages.map((language, languageIndex) => {
-            let flagImage;
-            switch (countryCode) {
-              case 'US':
-                flagImage = flagUS;
-                break;
-              case 'CA':
-                flagImage = flagCA;
-                break;
-              case 'MX':
-                flagImage = flagMX;
-                break;
-              case 'AR':
-                flagImage = flagAR;
-                break;
-              case 'CN':
-                flagImage = flagCN;
-                break;
-              case 'GB':
-                flagImage = flagGB;
-                break;
-              case 'RU':
-                flagImage = flagRU;
-                break;
-              case 'FR':
-                flagImage = flagFR;
-                break;
-              case 'DE':
-                flagImage = flagDE;
-                break;
-              case 'IT':
-                flagImage = flagIT;
-                break;
-              case 'SA':
-                flagImage = flagSA;
-                break;
-              // Add cases for other country codes and corresponding image imports
-              default:
-                flagImage = null;
-                break;
-            }
-            return (<React.Fragment key={`country-language-${countryIndex}-${languageIndex}`}>
-              <Pressable onPress={() => handleDataOperation(countryCode, countries[countryCode].languages[languageIndex].language_code as Locales)}>
-                {({ pressed }) => (
-                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <Image
-                      style={[styles.flag, { opacity: pressed ? 0.5 : 1 }]}
-                      source={flagImage}
-                    />
-                    <View style={{ flexDirection: 'column', alignItems: 'flex-start' }}>
-                      <Text style={styles.title}>{`${countries[countryCode].name}`}</Text>
-                      <Text style={styles.value} lightColor={colors.light.tint}>{`${countries[countryCode].languages[languageIndex].language}`}</Text>
-                    </View>
-                  </View>
-                )}
-              </Pressable>
-              <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-            </React.Fragment>)
-          })
-        })}
-      </View >
-    );
-   *  */
 }
 
 const styles = StyleSheet.create({

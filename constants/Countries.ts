@@ -2080,11 +2080,8 @@ export function findLanguageByCode(languages: Language[],languageCode: string): 
 }
 
 export function findCountryByCurrencyCode(currencyCode: string) {
-  console.log(`currencyCode: ${currencyCode}`)
   for (const countryCode of supportedCountryCodes) {
-    console.log(`countryCode: ${countryCode}`)
     const country = countries[countryCode];
-    console.log(`country: ${JSON.stringify(country)}`)
     if (country.currency_code === currencyCode) {
       return country;
     }

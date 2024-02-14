@@ -1,89 +1,139 @@
-import { useEffect } from 'react';
-import { StyleSheet } from 'react-native';
+import { useEffect, useState } from 'react';
+import { StyleSheet, Image } from 'react-native';
 import { useNavigation } from 'expo-router';
-import { Link } from 'expo-router';
 import { Pressable } from 'react-native';
+import { ScrollView } from 'react-native';
 import { colors } from '@/constants/colors';
 import { useColorScheme } from '@/components/use-color-scheme';
 import { Text, View } from '@/components/themed';
-import { MaterialCommunityIcons, MaterialIcons, FontAwesome } from '@expo/vector-icons';
 import { useI18nContext } from '@/components/i18n/i18n-react';
-import { Config } from '@/configs/configs';
-import { countries } from '@/constants/countries';
+import { countries, supportedCountryCodes } from '@/constants/countries';
+import React from 'react';
+import flagUS from '@/assets/flags/us.png';
+import flagCA from '@/assets/flags/ca.png';
+import flagMX from '@/assets/flags/mx.png';
+import flagAR from '@/assets/flags/ar.png';
+import flagCN from '@/assets/flags/cn.png';
+import flagGB from '@/assets/flags/gb.png';
+import flagRU from '@/assets/flags/ru.png';
+import flagFR from '@/assets/flags/fr.png';
+import flagDE from '@/assets/flags/de.png';
+import flagIT from '@/assets/flags/it.png';
+import flagSA from '@/assets/flags/sa.png';
+import { setUserCountry, setUserCurrency, setUserLocale } from '@/components/async-storage';
+import { loadLocaleAsync } from '@/components/i18n/i18n-util.async';
+import { Locales } from '@/components/i18n/i18n-types';
 
-export default function Currencies() {
+export default function Currencyies() {
   const colorScheme = useColorScheme();
   const router = useNavigation();
-  const { LL } = useI18nContext()
-  const country = countries[Config.countryCode ?? 'US'].name;
-  const language = countries[Config.countryCode ?? 'US'].languages[0].language;
-  const currencyCode = countries[Config.countryCode ?? 'US'].currency_code;
-  const currencySymbol = countries[Config.countryCode ?? 'US'].currency_symbol;
+  const { locale, LL, setLocale } = useI18nContext()
+  const cc = 'ca';
+
+  const setCurrency = async (currencyCode: string) => {
+    await setUserCurrency(currencyCode);
+  };
+
+  // Now when you use countryCode to index Countries, TypeScript knows it is safe.
+  // const country = countries[Config.countryCode ?? 'US'].name;
+  // const language = countries[Config.countryCode ?? 'US'].languages[0].language;
 
   useEffect(() => {
-    router.setOptions({ title: LL.CURRENCY(), headerBackTitle: LL.BACK() });
+    router.setOptions({ title: LL.COUNTRYANDLANAGUAGE(), headerBackTitle: LL.BACK() });
   }, [LL]); // Add dependency array to re-execute only when `LL` changes
 
   return (
-    <View style={styles.container}>
-      <Link href='/country-languages' asChild>
-        <Pressable>
-          {({ pressed }) => (
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <FontAwesome
-                name='language'
-                size={25}
-                color={colors[colorScheme ?? 'light'].text}
-                style={{ marginTop: 15, marginLeft: 15, marginRight: 7, opacity: pressed ? 0.5 : 1 }}
-              />
-              <View style={{ flexDirection: 'column', alignItems: 'flex-start' }}>
-                <Text style={styles.title}>{LL.COUNTRYANDLANAGUAGE()}</Text>
-                <Text style={styles.value} lightColor={colors.light.tint}>{`${country}, ${language}`}</Text>
-              </View>
-            </View>
-          )}
-        </Pressable>
-      </Link>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <Link href='/currencies' asChild>
-        <Pressable>
-          {({ pressed }) => (
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <MaterialCommunityIcons
-                name='currency-usd'
-                size={25}
-                color={colors[colorScheme ?? 'light'].text}
-                style={{ marginTop: 15, marginLeft: 15, marginRight: 7, opacity: pressed ? 0.5 : 1 }}
-              />
-              <View style={{ flexDirection: 'column', alignItems: 'flex-start' }}>
-                <Text style={styles.title}>{LL.CURRENCY()}</Text>
-                <Text style={styles.value} lightColor={colors.light.tint}>{`${currencyCode} (${currencySymbol})`}</Text>
-              </View>
-            </View>
-          )}
-        </Pressable>
-      </Link>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-    </View >
+    <ScrollView contentContainerStyle={styles.scrollViewContent}>
+      {supportedCountryCodes.map((countryCode, countryIndex) => {
+        let flagImage;
+        switch (countryCode) {
+          case 'US':
+            flagImage = flagUS;
+            break;
+          case 'CA':
+            flagImage = flagCA;
+            break;
+          case 'MX':
+            flagImage = flagMX;
+            break;
+          case 'AR':
+            flagImage = flagAR;
+            break;
+          case 'CN':
+            flagImage = flagCN;
+            break;
+          case 'GB':
+            flagImage = flagGB;
+            break;
+          case 'RU':
+            flagImage = flagRU;
+            break;
+          case 'FR':
+            flagImage = flagFR;
+            break;
+          case 'DE':
+            flagImage = flagDE;
+            break;
+          case 'IT':
+            flagImage = flagIT;
+            break;
+          case 'SA':
+            flagImage = flagSA;
+            break;
+          // Add cases for other country codes and corresponding image imports
+          default:
+            flagImage = null;
+            break;
+        }
+
+        return (
+          <View key={`country-language-${countryIndex}}`} style={[styles.container,]}>
+            <Pressable onPress={() => setCurrency(countries[countryCode].currency_code)}>
+              {({ pressed }) => (
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <Image
+                    style={[styles.flag, { opacity: pressed ? 0.5 : 1 }]}
+                    source={flagImage}
+                  />
+                  <View style={{ flexDirection: 'column', alignItems: 'flex-start' }}>
+                    <Text style={styles.title}>{`${countries[countryCode].name}`}</Text>
+                    <Text style={styles.value} lightColor={colors.light.tint}>{`${countries[countryCode].currency_code} (${countries[countryCode].currency_symbol})`}</Text>
+                  </View>
+                </View>
+              )}
+            </Pressable>
+            <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+          </View>
+        );
+      })}
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+  scrollViewContent: {
+    alignItems: 'flex-start', // Or your desired alignment
+    justifyContent: 'flex-start', // Or your desired alignment
+  },
   container: {
-    flex: 1,
+    width: '100%',
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
   },
   title: {
-    marginTop: 15,
     fontSize: 17,
   },
   value: {
     fontSize: 14,
   },
   separator: {
-    marginTop: 15,
     height: 1,
     width: '100%',
+  },
+  flag: {
+    width: 40,
+    height: 20,
+    marginVertical: 20,
+    marginHorizontal: 15,
   },
 });
