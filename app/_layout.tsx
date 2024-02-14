@@ -11,15 +11,10 @@ import TypesafeI18n from '@/components/i18n/i18n-react'
 import { Locales } from '@/components/i18n/i18n-types'
 import { isLocale } from '@/components/i18n/i18n-util'
 import { loadLocaleAsync } from '@/components/i18n/i18n-util.async'
-import { getUserLocale } from '@/components/locale-storage'
+import { getUserLocale } from '@/components/async-storage'
 import { Config } from '@/configs/configs'
-import Countries from '@/constants/Countries'
+import { countries } from '@/constants/countries'
 import '@/components/polyfill/Intl'
-
-// Get default locale from device settings.
-const DEFAULT_LOCALE = Localization.getLocales().map(it => it.languageTag).find(isLocale) ?? Countries.US.languages[0].language_code as Locales;
-Config.languageCode = Localization.locale.split('-')[0] ?? Countries.US.languages[0].language_code;
-Config.countryCode = Localization.locale.split('-')[1] ?? 'US';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -54,7 +49,7 @@ export default function RootLayout() {
   const [localeLoaded, setLocaleLoaded] = useState<Locales | null>(null)
 
   useEffect(() => {
-    getUserLocale(DEFAULT_LOCALE)
+    getUserLocale()
       .then(async locale => { await loadLocaleAsync(locale); return locale })
       .then(setLocaleLoaded)
   }, [])

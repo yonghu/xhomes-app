@@ -8,12 +8,23 @@ import { loadedFormatters, loadedLocales, locales } from './i18n-util'
 import es from './es';
 import en from './en';
 import zh from './zh';
+import ru from './ru';
+import fr from './fr';
+import de from './de';
+import it from './it';
+import ar from './ar';
 
 const localeTranslations = {
-	es,
-	en,
+  es,
+  en,
 	zh,
+	ru,
+	fr,
+	de,
+	it,
+	ar
 }
+
 
 export const loadLocale = (locale: Locales): void => {
 	if (loadedLocales[locale]) return

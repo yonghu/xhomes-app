@@ -1,4 +1,31 @@
-export default {
+export interface Countries {
+  [key: string]: {
+    name: string;
+    region: string;
+    name_english: string,
+    currency_code: string,
+    currency: string,
+    currency_english: string,
+    currency_symbol: string,
+    languages: {
+      country_name: string;
+      language_code: string;
+      language: string;
+      language_english: string;
+    }[];
+  }
+}
+
+export interface Language {
+  country_name: string;
+  language_code: string;
+  language: string;
+  language_english: string;
+}
+
+export const supportedCountryCodes: string[] = ['US', 'CA', 'MX', 'AR', 'CN', 'GB', 'RU', 'FR', 'DE', 'IT', 'SA' ]
+
+export const countries: Countries = {
   'US': {
     'name': 'United States',
     'region': 'Americas',
@@ -27,7 +54,7 @@ export default {
     'languages': [
       {
         'country_name': '中国',
-        'language_code': 'zh_Hans',
+        'language_code': 'zh',
         'language': '中文(简体)',
         'language_english': 'Chinese (Simplified)'
       }
@@ -1478,18 +1505,15 @@ export default {
     'languages': [
       {
         'country_name': 'ශ්‍රී ලංකාව / இலங்கை',
-        'language_code': [
-          'si',
-          'ta'
-        ],
-        'language': [
-          'සිංහල',
-          'தமிழ்'
-        ],
-        'language_english': [
-          'Sinhala',
-          'Tamil'
-        ]
+        'language_code': 'si',
+        'language': 'සිංහල',
+        'language_english': 'Sinhala'
+      },
+      {
+        'country_name': 'ශ්‍රී ලංකාව / இலங்கை',
+        'language_code': 'ta',
+        'language': 'தமிழ்',
+        'language_english': 'Tamil'
       }
     ]
   },
@@ -1833,18 +1857,15 @@ export default {
     'languages': [
       {
         'country_name': 'Κύπρος / Kıbrıs',
-        'language_code': [
-          'el',
-          'tr'
-        ],
-        'language': [
-          'Ελληνικά',
-          'Türkçe'
-        ],
-        'language_english': [
-          'Greek',
-          'Turkish'
-        ]
+        'language_code': 'el',
+        'language': 'Ελληνικά',
+        'language_english': 'Greek'
+      },
+      {
+        'country_name': 'Κύπρος / Kıbrıs',
+        'language_code': 'el',
+        'language': 'Türkçe',
+        'language_english': 'Turkish'
       }
     ]
   },
@@ -2052,4 +2073,21 @@ export default {
       }
     ]
   }
+}
+
+export function findLanguageByCode(languages: Language[],languageCode: string): Language | undefined {
+  return languages.find(language => language.language_code === languageCode);
+}
+
+export function findCountryByCurrencyCode(currencyCode: string) {
+  console.log(`currencyCode: ${currencyCode}`)
+  for (const countryCode of supportedCountryCodes) {
+    console.log(`countryCode: ${countryCode}`)
+    const country = countries[countryCode];
+    console.log(`country: ${JSON.stringify(country)}`)
+    if (country.currency_code === currencyCode) {
+      return country;
+    }
+  }
+  return undefined;
 }

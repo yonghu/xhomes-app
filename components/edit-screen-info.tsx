@@ -5,7 +5,7 @@ import { ExternalLink } from './external-link';
 import { MonoText } from './styled-text';
 import { Text, View } from './themed';
 
-import Colors from '@/constants/Colors';
+import { colors } from '@/constants/colors';
 
 export default function EditScreenInfo({ path }: { path: string }) {
   return (
@@ -37,7 +37,7 @@ export default function EditScreenInfo({ path }: { path: string }) {
         <ExternalLink
           style={styles.helpLink}
           href="https://docs.expo.io/get-started/create-a-new-app/#opening-the-app-on-your-phonetablet">
-          <Text style={styles.helpLinkText} lightColor={Colors.light.tint}>
+          <Text style={styles.helpLinkText} lightColor={colors.light.tint}>
             Tap here if your app doesn't automatically update after making changes
           </Text>
         </ExternalLink>

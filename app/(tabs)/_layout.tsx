@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 
 import { Link, Tabs } from 'expo-router';
 import { Pressable, Text } from 'react-native';
-import Colors from '@/constants/Colors';
+import { colors } from '@/constants/colors';
 import { useColorScheme } from '@/components/use-color-scheme';
 import { useClientOnlyValue } from '@/components/use-client-only-value';
 
@@ -25,7 +25,7 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarActiveTintColor: colors[colorScheme ?? 'light'].tint,
         // Disable the static render of the header on web
         // to prevent a hydration error in React Navigation v6.
         headerShown: useClientOnlyValue(false, true),
@@ -42,7 +42,7 @@ export default function TabLayout() {
                   <MaterialCommunityIcons
                     name='face-agent'
                     size={25}
-                    color={Colors[colorScheme ?? 'light'].text}
+                    color={colors[colorScheme ?? 'light'].text}
                     style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
                   />
                 )}
@@ -70,7 +70,7 @@ export default function TabLayout() {
                   <Feather
                     name='settings'
                     size={25}
-                    color={Colors[colorScheme ?? 'light'].text}
+                    color={colors[colorScheme ?? 'light'].text}
                     style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
                   />
                 )}
