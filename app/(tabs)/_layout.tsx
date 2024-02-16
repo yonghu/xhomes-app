@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 
 import { Link, Tabs } from 'expo-router';
 import { Pressable, Text } from 'react-native';
-import { colors } from '@/constants/colors';
+import { colors } from '@/constants/Colors';
 import { useColorScheme } from '@/components/use-color-scheme';
 import { useClientOnlyValue } from '@/components/use-client-only-value';
 

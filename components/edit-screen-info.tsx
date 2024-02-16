@@ -5,7 +5,7 @@ import { ExternalLink } from './external-link';
 import { MonoText } from './styled-text';
 import { Text, View } from './themed';
 
-import { colors } from '@/constants/colors';
+import { colors } from '@/constants/Colors';
 
 export default function EditScreenInfo({ path }: { path: string }) {
   return (

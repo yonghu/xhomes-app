@@ -2,7 +2,7 @@ import * as Localization from 'expo-localization'
 import * as SecureStore from 'expo-secure-store';
 import { Locales } from './i18n/i18n-types';
 import { baseLocale, isLocale } from './i18n/i18n-util';
-import { countries } from '@/constants/countries'
+import { countries } from '@/constants/Countries'
 
 const LOCALE_KEY = 'user_locale';
 const CURRENCY_KEY = 'user_currency'

@@ -3,11 +3,11 @@ import { StyleSheet, Image } from 'react-native';
 import { useNavigation } from 'expo-router';
 import { Pressable } from 'react-native';
 import { ScrollView } from 'react-native';
-import { colors } from '@/constants/colors';
+import { colors } from '@/constants/Colors';
 import { useColorScheme } from '@/components/use-color-scheme';
 import { Text, View } from '@/components/themed';
 import { useI18nContext } from '@/components/i18n/i18n-react';
-import { countries, supportedCountryCodes } from '@/constants/countries';
+import { countries, supportedCountryCodes } from '@/constants/Countries';
 import React from 'react';
 import flagUS from '@/assets/flags/us.png';
 import flagCA from '@/assets/flags/ca.png';
@@ -57,7 +57,7 @@ export default function SelectLocale() {
     <ScrollView contentContainerStyle={styles.scrollViewContent}>
       {supportedCountryCodes.map((countryCode, countryIndex) => {
         return countries[countryCode].languages.map((language, languageIndex) => {
-          let flagImage;
+          let flagImage: any;
           switch (countryCode) {
             case 'US':
               flagImage = flagUS;

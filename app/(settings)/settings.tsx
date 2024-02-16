@@ -3,12 +3,12 @@ import { StyleSheet } from 'react-native';
 import { useNavigation, useFocusEffect } from 'expo-router'; // Import useFocusEffect
 import { Link } from 'expo-router';
 import { Pressable } from 'react-native';
-import { colors } from '@/constants/colors';
+import { colors } from '@/constants/Colors';
 import { useColorScheme } from '@/components/use-color-scheme';
 import { Text, View } from '@/components/themed';
 import { MaterialCommunityIcons, FontAwesome } from '@expo/vector-icons';
 import { useI18nContext } from '@/components/i18n/i18n-react';
-import { countries, Language, findLanguageByCode, findCountryByCurrencyCode } from '@/constants/countries';
+import { countries, Language, findLanguageByCode, findCountryByCurrencyCode } from '@/constants/Countries';
 import { Locales } from '@/components/i18n/i18n-types';
 import { getUserCurrency, getUserLocale } from '@/components/secure-storage';
 import { loadLocaleAsync } from '@/components/i18n/i18n-util.async';
