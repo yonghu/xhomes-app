@@ -7,8 +7,13 @@
       "developmentClient": true,
       "distribution": "internal",
       "ios": {
-        "simulator": true,
         "resourceClass": "m-medium"
+      }
+    },
+    "development-simulator": {
+      "extends": "development",
+      "ios": {
+        "simulator": true
       }
     },
     "preview": {

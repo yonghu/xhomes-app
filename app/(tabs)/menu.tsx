@@ -31,7 +31,7 @@ export default function Menu() {
         <Text>You are Signed in</Text>
       </SignedIn>
       <SignedOut>
-        <SignUpScreen />
+        <SignInWithOAuth />
       </SignedOut>
     </View>
   );

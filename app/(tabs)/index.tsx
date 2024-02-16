@@ -11,7 +11,7 @@ export default function Menu() {
       </SignedIn>
       <SignedOut>
         <Text>You are Signed out</Text>
-        <Text style={styles.title}>Menu</Text>
+        <Text style={styles.title}>Home Page</Text>
         <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
         <EditScreenInfo path="app/(tabs)/two.tsx" />
       </SignedOut>
