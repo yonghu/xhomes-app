@@ -4,17 +4,20 @@ import type { BaseTranslation as BaseTranslationType, LocalizedString, RequiredP
 import '@/components/polyfill/Intl'
 
 export type BaseTranslation = BaseTranslationType
-export type BaseLocale = 'en'
 
 export type Locales =
-	| 'es'
-	| 'en'
-	| 'zh'
-	| 'ru'
-	| 'fr'
-	| 'de'
-	| 'it'
-	| 'ar'
+	| 'es-AR'
+	| 'es-MX'
+	| 'en-US'
+	| 'en-CA'
+	| 'en-GB'
+	| 'zh-CN'
+	| 'ru-RU'
+	| 'fr-FR'
+	| 'fr-CA'
+	| 'de-DE'
+	| 'it-IT'
+	| 'ar-SA'
 
 export type Translation = RootTranslation
 

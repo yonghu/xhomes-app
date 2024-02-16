@@ -5,24 +5,32 @@ import { initFormatters } from './formatters'
 import type { Locales, Translations } from './i18n-types'
 import { loadedFormatters, loadedLocales, locales } from './i18n-util'
 
-import es from './es';
-import en from './en';
-import zh from './zh';
-import ru from './ru';
-import fr from './fr';
-import de from './de';
-import it from './it';
-import ar from './ar';
+import es_AR from './es-AR';
+import es_MX from './es-MX';
+import en_US from './en-US';
+import en_CA from './en-CA';
+import en_GB from './en-GB';
+import zh_CN from './zh-CN';
+import ru_RU from './ru-RU';
+import fr_FR from './fr-FR';
+import fr_CA from './fr-CA';
+import de_DE from './de-DE';
+import it_IT from './it-IT';
+import ar_SA from './ar-SA';
 
 const localeTranslationLoaders = {
-  es,
-  en,
-	zh,
-	ru,
-	fr,
-	de,
-	it,
-	ar
+  'es-AR': es_AR,
+  'es-MX': es_MX,
+  'en-US': en_US,
+  'en-CA': en_CA,
+  'en-GB': en_GB,
+	'zh-CN': zh_CN,
+	'ru-RU': ru_RU,
+	'fr-FR': fr_FR,
+	'fr-CA': fr_CA,
+	'de-DE': de_DE,
+	'it-IT': it_IT,
+	'ar-SA': ar_SA
 }
 
 const updateDictionary = (locale: Locales, dictionary: Partial<Translations>): Translations =>

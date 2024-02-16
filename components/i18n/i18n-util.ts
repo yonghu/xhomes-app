@@ -7,12 +7,21 @@ import type { LocaleTranslationFunctions, TranslateByString } from 'typesafe-i18
 import { detectLocale as detectLocaleFn } from 'typesafe-i18n/detectors'
 import type { Formatters, Locales, Translations, TranslationFunctions } from './i18n-types'
 
-export const baseLocale: Locales = 'en'
+export const baseLocale: Locales = 'en-US'
 
 export const locales: Locales[] = [
-	'es',
-	'en',
-	'zh'
+  'es-AR',
+  'es-MX',
+  'en-US',
+  'en-CA',
+  'en-GB',
+	'zh-CN',
+	'ru-RU',
+	'fr-FR',
+	'fr-CA',
+	'de-DE',
+	'it-IT',
+	'ar-SA'
 ]
 
 export const isLocale = (locale: string): locale is Locales => locales.includes(locale as Locales)

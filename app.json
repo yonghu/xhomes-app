@@ -4,7 +4,11 @@
     "slug": "xhomes",
     "version": "1.0.0",
     "privacy": "unlisted",
-    "platforms": ["ios","android","web"],
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "xhomes",
@@ -18,9 +22,11 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "world.xhomes.app",
       "supportsTablet": true
     },
     "android": {
+      "package": "world.xhomes.app",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -32,7 +38,8 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      "expo-secure-store",
     ],
     "experiments": {
       "typedRoutes": true

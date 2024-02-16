@@ -1,21 +1,20 @@
 import * as Localization from 'expo-localization'
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as SecureStore from 'expo-secure-store';
 import { Locales } from './i18n/i18n-types';
-import { isLocale } from './i18n/i18n-util';
-import { countries, supportedCountryCodes } from '@/constants/countries'
+import { baseLocale, isLocale } from './i18n/i18n-util';
+import { countries } from '@/constants/countries'
 
-const LOCALE_KEY = '@user-locale';
-const COUNTRY_KEY = '@user-country';
-const CURRENCY_KEY = '@user-currency'
+const LOCALE_KEY = 'user_locale';
+const CURRENCY_KEY = 'user_currency'
 
 
 // Get default locale from device settings.
 // If device locale is part of locales we support, use the locale from setting.
 // Otherwise, set us as 'english'
-export const DEFAULT_LOCALE = Localization.getLocales().map(it => it.languageTag).find(isLocale) ?? countries.US.languages[0].language_code as Locales;
+export const DEFAULT_LOCALE: Locales = (Localization.locale?? baseLocale) as Locales;
 // Set Country code. If locale from setting is part of Locales we support, use country code from deveice setting
 // Otherise, set country code to 'US'
-export const DEFAULT_COUNTRY_CODE = Localization.getLocales().map(it => it.languageTag).find(isLocale) ? Localization.locale.split('-')[1] ?? 'US' : 'US';
+export const DEFAULT_COUNTRY_CODE = DEFAULT_LOCALE.split('-')[1];
 
 export const DEFAULT_CURRENCY_CODE = countries[DEFAULT_COUNTRY_CODE].currency_code;
 /**
@@ -25,7 +24,7 @@ export const DEFAULT_CURRENCY_CODE = countries[DEFAULT_COUNTRY_CODE].currency_co
  */
 export const getUserLocale = async () => {
 	try {
-		const value = await AsyncStorage.getItem(LOCALE_KEY)
+		const value = await SecureStore.getItemAsync(LOCALE_KEY)
 		if (value !== null && isLocale(value)) {
 			return value;
 		}
@@ -33,7 +32,7 @@ export const getUserLocale = async () => {
 		console.error('Error reading from local storage', e);
 	}
 
-	return DEFAULT_LOCALE
+	return DEFAULT_LOCALE;
 }
 
 /**
@@ -43,40 +42,7 @@ export const getUserLocale = async () => {
  */
 export const setUserLocale = async (value: Locales) => {
 	try {
-		await AsyncStorage.setItem(LOCALE_KEY, value)
-		return value
-	} catch (e) {
-		console.error('Error reading from local storage', e);
-		throw e;
-	}
-}
-
-/**
- * Gets the country, previous stored into local storage.
- * 
- * Returns the country that was stored, or the passed-in default if none was stored.
- */
-export const getUserCountry = async () => {
-	try {
-		const value = await AsyncStorage.getItem(COUNTRY_KEY)
-		if (value !== null && supportedCountryCodes.includes(value)) {
-			return value;
-		}
-	} catch(e) {
-		console.error('Error reading from local storage', e);
-	}
-
-	return DEFAULT_COUNTRY_CODE
-}
-
-/**
- * Sets a country into local storage.
- * 
- * Returns the country back if it was stored successfully, or rejects the promise if not.
- */
-export const setUserCountry = async (value: string) => {
-	try {
-		await AsyncStorage.setItem(COUNTRY_KEY, value)
+		await SecureStore.setItemAsync(LOCALE_KEY, value)
 		return value
 	} catch (e) {
 		console.error('Error reading from local storage', e);
@@ -91,7 +57,7 @@ export const setUserCountry = async (value: string) => {
  */
 export const getUserCurrency = async () => {
 	try {
-		const value = await AsyncStorage.getItem(CURRENCY_KEY)
+		const value = await SecureStore.getItemAsync(CURRENCY_KEY)
 		if (value !== null) {
 			return value;
 		}
@@ -109,7 +75,7 @@ export const getUserCurrency = async () => {
  */
 export const setUserCurrency = async (value: string) => {
 	try {
-		await AsyncStorage.setItem(CURRENCY_KEY, value)
+		await SecureStore.setItemAsync(CURRENCY_KEY, value)
 		return value
 	} catch (e) {
 		console.error('Error reading from local storage', e);

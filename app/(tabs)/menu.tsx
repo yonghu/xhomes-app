@@ -1,14 +1,38 @@
-import { StyleSheet } from 'react-native';
-
-import EditScreenInfo from '@/components/edit-screen-info';
+import { Button, StyleSheet } from 'react-native';
+import { SignedIn, SignedOut, useAuth } from "@clerk/clerk-expo";
 import { Text, View } from '@/components/themed';
+import SignUpScreen from "@/components/authentication/signup";
+import Register from "@/components/authentication/register";
+import SignInScreen from "@/components/authentication/signin";
+import SignInWithOAuth from "@/components/authentication/signin-with-oauth";
 
 export default function Menu() {
+
+  const SignOut = () => {
+    const { isLoaded, signOut } = useAuth();
+    if (!isLoaded) {
+      return null;
+    }
+    return (
+      <View>
+        <Button
+          title="Sign Out"
+          onPress={() => {
+            signOut();
+          }}
+        />
+      </View>
+    );
+  };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Menu</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/two.tsx" />
+      <SignedIn>
+        <Text>You are Signed in</Text>
+      </SignedIn>
+      <SignedOut>
+        <SignUpScreen />
+      </SignedOut>
     </View>
   );
 }

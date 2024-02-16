@@ -56,6 +56,20 @@ export default function TabLayout() {
         options={{
           title: `${LL.HOME()}`,
           tabBarIcon: ({ color }) => <TabBarIconMaterialIcons name='home' color={color} />,
+          headerRight: () => (
+            <Link href='/modal' asChild>
+              <Pressable>
+                {({ pressed }) => (
+                  <MaterialCommunityIcons
+                    name='face-agent'
+                    size={25}
+                    color={colors[colorScheme ?? 'light'].text}
+                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                  />
+                )}
+              </Pressable>
+            </Link>
+          ),
         }}
       />
       <Tabs.Screen

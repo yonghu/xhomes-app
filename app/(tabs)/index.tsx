@@ -1,14 +1,20 @@
 import { StyleSheet } from 'react-native';
-
 import EditScreenInfo from '@/components/edit-screen-info';
 import { Text, View } from '@/components/themed';
+import { SignedIn, SignedOut } from "@clerk/clerk-expo";
 
 export default function Menu() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Menu</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/two.tsx" />
+      <SignedIn>
+        <Text>You are Signed in</Text>
+      </SignedIn>
+      <SignedOut>
+        <Text>You are Signed out</Text>
+        <Text style={styles.title}>Menu</Text>
+        <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+        <EditScreenInfo path="app/(tabs)/two.tsx" />
+      </SignedOut>
     </View>
   );
 }

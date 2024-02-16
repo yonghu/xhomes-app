@@ -10,7 +10,7 @@ import { MaterialCommunityIcons, FontAwesome } from '@expo/vector-icons';
 import { useI18nContext } from '@/components/i18n/i18n-react';
 import { countries, Language, findLanguageByCode, findCountryByCurrencyCode } from '@/constants/countries';
 import { Locales } from '@/components/i18n/i18n-types';
-import { getUserCountry, getUserCurrency, getUserLocale } from '@/components/async-storage';
+import { getUserCurrency, getUserLocale } from '@/components/secure-storage';
 import { loadLocaleAsync } from '@/components/i18n/i18n-util.async';
 
 export default function Settings() {
@@ -18,36 +18,26 @@ export default function Settings() {
   const router = useNavigation();
   const { LL } = useI18nContext();
 
-  const [localeLoaded, setLocaleLoaded] = useState<Locales | null>(null)
-  const [countryLoaded, setCountryLoaded] = useState<string | null>(null)
-  const [currencyLoaded, setCurrencyLoaded] = useState<string | null>(null)
-
-  useEffect(() => {
-    getUserLocale().then(async locale => { await loadLocaleAsync(locale); return locale }).then(setLocaleLoaded);
-    getUserCountry().then(setCountryLoaded);
-    getUserCurrency().then(setCurrencyLoaded);
-  }, []);
-
   useEffect(() => {
     router.setOptions({ title: LL.SETTINGS(), headerBackTitle: LL.BACK() });
   }, [LL]);
 
-  // Handle refresh logic when the screen is focused again
-  useFocusEffect(() => {
-    // Fetch necessary data again or perform any refresh actions here
-    // For example, you can reload data from AsyncStorage or make API calls
+  const [localeLoaded, setLocaleLoaded] = useState<Locales | null>(null)
+  const [currencyLoaded, setCurrencyLoaded] = useState<string | null>(null)
+
+  useEffect(() => {
     getUserLocale().then(async locale => { await loadLocaleAsync(locale); return locale }).then(setLocaleLoaded);
-    getUserCountry().then(setCountryLoaded);
     getUserCurrency().then(setCurrencyLoaded);
   });
 
-  if (localeLoaded === null || countryLoaded === null || currencyLoaded === null) {
+  if (localeLoaded === null || currencyLoaded === null) {
     return null;
   }
 
-  const country = countries[countryLoaded].name;
-  const languageObj: Language | undefined = findLanguageByCode(countries[countryLoaded].languages, localeLoaded);
-  let language = countries[countryLoaded].languages[0].language;
+  const countryCode = localeLoaded.split('-')[1];
+  const country = countries[countryCode].name;
+  const languageObj: Language | undefined = findLanguageByCode(countries[countryCode].languages, localeLoaded.split('-')[0]);
+  let language = countries[countryCode].languages[0].language;
   if (languageObj) {
     language = languageObj.language;
   }
@@ -62,7 +52,7 @@ export default function Settings() {
 
   return (
     <View style={styles.container}>
-      <Link href='/country-languages' asChild>
+      <Link href='/(settings)/locales' asChild>
         <Pressable>
           {({ pressed }) => (
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>

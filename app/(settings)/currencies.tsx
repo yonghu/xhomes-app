@@ -4,7 +4,6 @@ import { useNavigation } from 'expo-router';
 import { Pressable } from 'react-native';
 import { ScrollView } from 'react-native';
 import { colors } from '@/constants/colors';
-import { useColorScheme } from '@/components/use-color-scheme';
 import { Text, View } from '@/components/themed';
 import { useI18nContext } from '@/components/i18n/i18n-react';
 import { countries, supportedCountryCodes } from '@/constants/countries';
@@ -20,27 +19,29 @@ import flagFR from '@/assets/flags/fr.png';
 import flagDE from '@/assets/flags/de.png';
 import flagIT from '@/assets/flags/it.png';
 import flagSA from '@/assets/flags/sa.png';
-import { setUserCountry, setUserCurrency, setUserLocale } from '@/components/async-storage';
-import { loadLocaleAsync } from '@/components/i18n/i18n-util.async';
-import { Locales } from '@/components/i18n/i18n-types';
+import { getUserCurrency, setUserCurrency } from '@/components/secure-storage';
 
-export default function Currencyies() {
-  const colorScheme = useColorScheme();
+export default function SelectCurrency() {
   const router = useNavigation();
-  const { locale, LL, setLocale } = useI18nContext()
-  const cc = 'ca';
+  const { LL } = useI18nContext()
 
-  const setCurrency = async (currencyCode: string) => {
+  const selectCurrency = async (currencyCode: string) => {
     await setUserCurrency(currencyCode);
   };
 
-  // Now when you use countryCode to index Countries, TypeScript knows it is safe.
-  // const country = countries[Config.countryCode ?? 'US'].name;
-  // const language = countries[Config.countryCode ?? 'US'].languages[0].language;
+  useEffect(() => {
+    router.setOptions({ title: LL.CURRENCY(), headerBackTitle: LL.BACK() });
+  }, [LL]); // Add dependency array to re-execute only when `LL` changes
+
+  const [currencyLoaded, setCurrencyLoaded] = useState<string | null>(null)
 
   useEffect(() => {
-    router.setOptions({ title: LL.COUNTRYANDLANAGUAGE(), headerBackTitle: LL.BACK() });
-  }, [LL]); // Add dependency array to re-execute only when `LL` changes
+    getUserCurrency().then(setCurrencyLoaded);
+  });
+
+  if (currencyLoaded === null) {
+    return null;
+  }
 
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContent}>
@@ -86,16 +87,21 @@ export default function Currencyies() {
             break;
         }
 
+        let styleSelected = {};
+        if (currencyLoaded === countries[countryCode].currency_code) {
+          styleSelected = { backgroundColor: "#999" }
+        }
+
         return (
-          <View key={`country-language-${countryIndex}}`} style={[styles.container,]}>
-            <Pressable onPress={() => setCurrency(countries[countryCode].currency_code)}>
+          <View key={`currency-${countryIndex}}`} style={[styles.container, styleSelected]}>
+            <Pressable onPress={() => selectCurrency(countries[countryCode].currency_code)}>
               {({ pressed }) => (
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <View style={[{ flexDirection: 'row', alignItems: 'center' }, styleSelected]}>
                   <Image
                     style={[styles.flag, { opacity: pressed ? 0.5 : 1 }]}
                     source={flagImage}
                   />
-                  <View style={{ flexDirection: 'column', alignItems: 'flex-start' }}>
+                  <View style={[{ flexDirection: 'column', alignItems: 'flex-start' }, styleSelected]}>
                     <Text style={styles.title}>{`${countries[countryCode].name}`}</Text>
                     <Text style={styles.value} lightColor={colors.light.tint}>{`${countries[countryCode].currency_code} (${countries[countryCode].currency_symbol})`}</Text>
                   </View>

@@ -20,21 +20,19 @@ import flagFR from '@/assets/flags/fr.png';
 import flagDE from '@/assets/flags/de.png';
 import flagIT from '@/assets/flags/it.png';
 import flagSA from '@/assets/flags/sa.png';
-import { setUserCountry, setUserLocale } from '@/components/async-storage';
+import { getUserLocale, setUserLocale } from '@/components/secure-storage';
 import { loadLocaleAsync } from '@/components/i18n/i18n-util.async';
 import { Locales } from '@/components/i18n/i18n-types';
 
-export default function CountryLanguages() {
+export default function SelectLocale() {
   const colorScheme = useColorScheme();
   const router = useNavigation();
-  const { locale, LL, setLocale } = useI18nContext()
-  const cc = 'ca';
+  const { LL, setLocale } = useI18nContext()
 
-  const setCountryAndLanguage = async (countryCode: string, languageCode: Locales) => {
-    setUserLocale(languageCode as Locales)
-      .then(async languageCode => { await loadLocaleAsync(languageCode); return languageCode })
+  const selectLocale = async (locale: Locales) => {
+    setUserLocale(locale as Locales)
+      .then(async locale => { await loadLocaleAsync(locale); return locale })
       .then(setLocale)
-    await setUserCountry(countryCode);
   };
 
   // Now when you use countryCode to index Countries, TypeScript knows it is safe.
@@ -44,6 +42,16 @@ export default function CountryLanguages() {
   useEffect(() => {
     router.setOptions({ title: LL.COUNTRYANDLANAGUAGE(), headerBackTitle: LL.BACK() });
   }, [LL]); // Add dependency array to re-execute only when `LL` changes
+
+  const [localeLoaded, setLocaleLoaded] = useState<Locales | null>(null)
+
+  useEffect(() => {
+    getUserLocale().then(async locale => { await loadLocaleAsync(locale); return locale }).then(setLocaleLoaded);
+  });
+
+  if (localeLoaded === null) {
+    return null;
+  }
 
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContent}>
@@ -90,16 +98,21 @@ export default function CountryLanguages() {
               break;
           }
 
+          let styleSelected = {};
+          if (localeLoaded === `${language.language_code}-${countryCode}`) {
+            styleSelected = { backgroundColor: "#999" }
+          }
+
           return (
-            <View key={`country-language-${countryIndex}-${languageIndex}`} style={[styles.container,]}>
-              <Pressable onPress={() => setCountryAndLanguage(countryCode, countries[countryCode].languages[languageIndex].language_code as Locales)}>
+            <View key={`locale-${countryIndex}-${languageIndex}`} style={[styles.container, styleSelected]}>
+              <Pressable onPress={() => selectLocale(`${countries[countryCode].languages[languageIndex].language_code}-${countryCode}` as Locales)}>
                 {({ pressed }) => (
-                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <View style={[{ flexDirection: 'row', alignItems: 'center' }, styleSelected]}>
                     <Image
                       style={[styles.flag, { opacity: pressed ? 0.5 : 1 }]}
                       source={flagImage}
                     />
-                    <View style={{ flexDirection: 'column', alignItems: 'flex-start' }}>
+                    <View style={[{ flexDirection: 'column', alignItems: 'flex-start' }, styleSelected]}>
                       <Text style={styles.title}>{`${countries[countryCode].name}`}</Text>
                       <Text style={styles.value} lightColor={colors.light.tint}>{`${countries[countryCode].languages[languageIndex].language}`}</Text>
                     </View>

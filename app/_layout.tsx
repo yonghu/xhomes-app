@@ -5,15 +5,14 @@ import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
+import * as SecureStore from "expo-secure-store";
 import { useColorScheme } from '@/components/use-color-scheme';
-
 import TypesafeI18n from '@/components/i18n/i18n-react'
 import { Locales } from '@/components/i18n/i18n-types'
-import { isLocale } from '@/components/i18n/i18n-util'
 import { loadLocaleAsync } from '@/components/i18n/i18n-util.async'
-import { getUserLocale } from '@/components/async-storage'
-import { Config } from '@/configs/configs'
-import { countries } from '@/constants/countries'
+import { getUserLocale } from '@/components/secure-storage'
+import { ClerkProvider } from "@clerk/clerk-expo";
+import Constants from "expo-constants"
 import '@/components/polyfill/Intl'
 
 export {
@@ -59,25 +58,47 @@ export default function RootLayout() {
     return null; // You might want to render a loading indicator instead of null.
   }
 
-  return <RootLayoutNav localeLoaded={localeLoaded} />;
+  const tokenCache = {
+    async getToken(key: string) {
+      try {
+        return SecureStore.getItemAsync(key);
+      } catch (err) {
+        return null;
+      }
+    },
+    async saveToken(key: string, value: string) {
+      try {
+        return SecureStore.setItemAsync(key, value);
+      } catch (err) {
+        return;
+      }
+    },
+  };
+
+
+  function RootLayoutNav() {
+    const colorScheme = useColorScheme();
+
+    return (
+      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        <TypesafeI18n locale={localeLoaded as Locales}>
+          <ClerkProvider
+            publishableKey={Constants.expoConfig ? Constants.expoConfig.extra?.clerkPublishableKey : ''}
+            tokenCache={tokenCache}
+          >
+            <Stack>
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+            </Stack>
+          </ClerkProvider>
+        </TypesafeI18n>
+      </ThemeProvider>
+    );
+  }
+  return <RootLayoutNav />;
 }
 
 interface RootLayoutNavProps {
   localeLoaded: Locales;
 }
 
-function RootLayoutNav({ localeLoaded }: RootLayoutNavProps) {
-  const colorScheme = useColorScheme();
-
-  return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <TypesafeI18n locale={localeLoaded}>
-        <Stack>
-          <Stack.Screen name="(settings)/settings" options={{ title: 'Settings', headerBackTitle: 'Back' }} />
-          <Stack.Screen name="(tabs)" options={{ headerShown: false, title: 'Tabs' }} />
-          <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-        </Stack>
-      </TypesafeI18n>
-    </ThemeProvider>
-  );
-}

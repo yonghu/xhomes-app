@@ -13,6 +13,8 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "@clerk/clerk-expo": "^0.20.5",
+    "@clerk/themes": "^1.7.9",
     "@expo/vector-icons": "^14.0.0",
     "@formatjs/intl-getcanonicallocales": "^2.0.4",
     "@formatjs/intl-locale": "^3.0.7",
@@ -25,6 +27,7 @@
     "expo-linking": "~6.2.2",
     "expo-localization": "~14.8.3",
     "expo-router": "~3.4.7",
+    "expo-secure-store": "~12.8.1",
     "expo-splash-screen": "~0.26.4",
     "expo-status-bar": "~1.11.1",
     "expo-system-ui": "~2.9.3",
@@ -32,10 +35,13 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-native": "0.73.4",
+    "react-native-loading-spinner-overlay": "^3.0.1",
     "react-native-safe-area-context": "4.8.2",
     "react-native-screens": "~3.29.0",
     "react-native-web": "~0.19.6",
-    "typesafe-i18n": "^5.17.0"
+    "typesafe-i18n": "^5.17.0",
+    "expo-updates": "~0.24.10",
+    "expo-dev-client": "~3.3.8"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
